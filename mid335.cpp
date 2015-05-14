@@ -23,8 +23,8 @@ float frequency[] = {
     18.35,
     19.45,
     20.60,
-    21.833,
-    12,
+    21.83,
+    23.12,
     24.50,
     25.96,
     27.50,
@@ -42,14 +42,14 @@ float frequency[] = {
     55.00,
     58.27,
     61.74,
-    65.4,
-    69.3,
-    73.4,
-    77.7,
-    82.4,
-    87.3,
-    92.5,
-    98.0,
+    65.41,
+    69.30,
+    73.42,
+    77.78,
+    82.41,
+    87.31,
+    92.50,
+    98.00,
     103.83,
     110.00,
     116.54,
@@ -167,6 +167,7 @@ int main(int argc, char *argv[])
         case 'E': note = E; break;
         case 'F': note = F; break;
     }
+
     //You may call your unit test here...
     tolerance = atof(argv[3]);
     cout << "\ntolerance: " << tolerance << endl;
@@ -178,16 +179,23 @@ int main(int argc, char *argv[])
     //printf("%-9.4f", freq(note, octave_delta));
     //printf("%-5.6f\n", freq(note, octave_delta) - frequency[3]);
 
+    float diff;
+    
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 12; j++) {
+            diff = abs(freq((note_t)count, octave_delta) - frequency[count-1]);
             printf(" %-6d", j+1);
             printf("%-5d", i);
             printf("%-9.4f", freq((note_t)count, octave_delta));
-            printf("%-5.6f\n", freq((note_t)count, octave_delta) - frequency[count-1]);
+            printf("%-15f", diff);
             count++;
-            if( freq((note_t)count, octave_delta) - frequency[count-1] > 
-                    tolerance)
+            if ( diff > tolerance) {
                 bad_count++;
+                printf("<----- bad\n");
+            }
+            else {
+                printf("good\n");
+            }
         }
     }
 
